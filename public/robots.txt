@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://arthur-jq.github.io/clining-spb/sitemap.xml

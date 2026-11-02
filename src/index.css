@@ -1,0 +1,155 @@
+@import "tailwindcss";
+
+/*
+  Дизайн-система «Чистый метр»
+  Концепция раскладки: спокойные широкие секции на белом, сетка 12 колонок,
+  один акцентный (янтарный) CTA на экран, данные — моноширинным шрифтом.
+*/
+@theme {
+  --font-display: "Unbounded", "Golos Text", system-ui, sans-serif;
+  --font-sans: "Golos Text", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+
+  /* Чернила и нейтральные с лёгким сине-зелёным оттенком */
+  --color-ink: #0E2730;
+  --color-ink-soft: #3E5A64;
+  --color-ink-mute: #5E7780;
+  --color-line: #DCE7EA;
+  --color-mist: #F2F7F8;
+  --color-paper: #FFFFFF;
+
+  /* Глубокий синий — бренд, доверие */
+  --color-brand-50: #EAF3F8;
+  --color-brand-100: #CFE3EE;
+  --color-brand-300: #6FA6C6;
+  --color-brand-500: #1D6E9C;
+  --color-brand-700: #0B4A6F;
+  --color-brand-900: #072F47;
+
+  /* Медицинский зелёный — безопасность, результат */
+  --color-leaf-50: #E7F6F0;
+  --color-leaf-100: #C6EADB;
+  --color-leaf-500: #12A37A;
+  --color-leaf-700: #0B7457;
+
+  /* Акцент — только для главного действия */
+  --color-amber-cta: #FFB547;
+  --color-amber-cta-hover: #F4A12A;
+
+  /* Семантика */
+  --color-danger: #B42318;
+  --color-danger-50: #FEF0EE;
+  --color-warn: #8A5A00;
+  --color-warn-50: #FFF6E5;
+
+  --radius-card: 1.25rem;
+  --shadow-soft: 0 1px 2px rgb(14 39 48 / 0.06), 0 8px 24px -12px rgb(14 39 48 / 0.18);
+}
+
+@layer base {
+  html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  }
+  body {
+    background: var(--color-paper);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    font-size: 1.0625rem;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  h1, h2, h3 { font-family: var(--font-display); text-wrap: balance; letter-spacing: -0.01em; }
+  :focus-visible { outline: 3px solid var(--color-brand-500); outline-offset: 2px; border-radius: 6px; }
+  section[id] { scroll-margin-top: 84px; }
+  fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .wrap > .grid > *, .grid > .card { min-width: 0; }
+}
+
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 1200px;
+    margin-inline: auto;
+    padding-left: max(16px, env(safe-area-inset-left, 0px));
+    padding-right: max(16px, env(safe-area-inset-right, 0px));
+  }
+  @media (min-width: 768px) {
+    .wrap { padding-left: max(32px, env(safe-area-inset-left, 0px)); padding-right: max(32px, env(safe-area-inset-right, 0px)); }
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-leaf-700);
+  }
+
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
+    min-height: 48px; padding: 0.75rem 1.375rem; border-radius: 999px;
+    font-weight: 600; line-height: 1.2; transition: background-color .15s, transform .15s, box-shadow .15s;
+    cursor: pointer; text-decoration: none; white-space: nowrap;
+  }
+  .btn:active { transform: translateY(1px); }
+  .btn:disabled { opacity: .6; cursor: not-allowed; }
+  .btn-cta { background: var(--color-amber-cta); color: var(--color-ink); box-shadow: 0 6px 18px -8px rgb(244 161 42 / .8); }
+  .btn-cta:hover { background: var(--color-amber-cta-hover); }
+  .btn-ghost { background: transparent; color: var(--color-brand-700); border: 1.5px solid var(--color-brand-100); }
+  .btn-ghost:hover { background: var(--color-brand-50); }
+  .btn-dark { background: var(--color-brand-700); color: #fff; }
+  .btn-dark:hover { background: var(--color-brand-900); }
+
+  .card { background: var(--color-paper); border: 1px solid var(--color-line); border-radius: var(--radius-card); }
+
+  .chip {
+    display: inline-flex; align-items: center; gap: .375rem;
+    min-height: 40px; padding: .5rem .875rem; border-radius: 999px;
+    border: 1.5px solid var(--color-line); background: var(--color-paper);
+    font-size: .9375rem; font-weight: 500; color: var(--color-ink-soft); cursor: pointer;
+    transition: border-color .15s, background-color .15s, color .15s;
+  }
+  .chip:hover { border-color: var(--color-brand-300); }
+  .chip[aria-pressed="true"], .chip[aria-checked="true"] { background: var(--color-brand-700); border-color: var(--color-brand-700); color: #fff; }
+
+  .field {
+    width: 100%; min-height: 52px; padding: .75rem 1rem; border-radius: .875rem;
+    border: 1.5px solid var(--color-line); background: var(--color-paper); color: var(--color-ink);
+    font-size: 1rem; transition: border-color .15s, box-shadow .15s;
+  }
+  .field::placeholder { color: var(--color-ink-mute); }
+  .field:focus { outline: none; border-color: var(--color-brand-500); box-shadow: 0 0 0 4px rgb(29 110 156 / .15); }
+  .field[aria-invalid="true"] { border-color: var(--color-danger); background: var(--color-danger-50); }
+
+  .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  .demo-tag {
+    display: inline-flex; align-items: center; padding: .125rem .5rem; border-radius: 999px;
+    font-family: var(--font-mono); font-size: .6875rem; letter-spacing: .04em;
+    background: var(--color-warn-50); color: var(--color-warn); border: 1px dashed #E4C27A;
+  }
+
+  input[type="range"].range { width: 100%; accent-color: var(--color-brand-700); height: 32px; }
+}
+
+/* Leaflet: подписи зон и подсказки */
+.leaflet-container { font-family: var(--font-sans); background: var(--color-mist); }
+.zone-label {
+  background: transparent; border: 0; box-shadow: none;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500; color: var(--color-brand-900);
+}
+.zone-label::before { display: none; }
+.leaflet-popup-content-wrapper { border-radius: 14px; box-shadow: var(--shadow-soft); }
+.leaflet-popup-content { margin: 14px 16px; font-size: 14px; line-height: 1.45; }
+.leaflet-container.map-no-tiles, .map-no-tiles {
+  background-color: #EEF4F6;
+  background-image: linear-gradient(#DCE7EA 1px, transparent 1px), linear-gradient(90deg, #DCE7EA 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.map-pin {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--color-amber-cta); border: 3px solid #fff;
+  box-shadow: 0 0 0 2px var(--color-ink), 0 6px 14px rgb(0 0 0 / .25);
+}
